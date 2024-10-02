@@ -22,4 +22,5 @@ public class UserEntity {
     private String phone;
     private LocalDateTime createdAt;
     private Boolean enabled;
+    protected Boolean isDeleted;
 }
