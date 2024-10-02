@@ -8,6 +8,7 @@ import com.nitin.userservice.model.UserEntity;
 import com.nitin.userservice.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 import static java.util.Objects.isNull;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
