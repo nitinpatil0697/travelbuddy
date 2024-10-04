@@ -6,6 +6,7 @@ import com.nitin.userservice.api.response.GeneralResponse;
 import com.nitin.userservice.constants.UserServiceConstants;
 import com.nitin.userservice.model.UserEntity;
 import com.nitin.userservice.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static java.util.Objects.isNull;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
@@ -26,6 +28,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public ResponseEntity<GeneralResponse> registerUser(RegisterUser registerUser) {
+        log.info("registerUser REQ: {}", registerUser);
         GeneralResponse registerResponse = new GeneralResponse();
         try{
             if (!this.validateRegisterRequest(registerUser)) {
@@ -53,6 +56,8 @@ public class UserServiceImpl implements UserService {
             registerResponse.setStatus(UserServiceConstants.FAILURE);
             registerResponse.setMessage(e.getMessage());
         }
+        log.info("registerUser RES: {}", registerResponse);
+
         return new ResponseEntity<>(registerResponse, HttpStatus.CREATED);
     }
 
