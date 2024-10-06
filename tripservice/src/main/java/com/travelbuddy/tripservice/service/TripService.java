@@ -8,4 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface TripService {
     ResponseEntity<GeneralResponse> createTrip(CreateTripRequest createTripRequest);
+
+    ResponseEntity<GeneralResponse> getAllPlaces();
 }

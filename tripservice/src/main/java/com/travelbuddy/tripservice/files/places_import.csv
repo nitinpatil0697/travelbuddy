@@ -1,0 +1,51 @@
+id,name,description,latitude,longitude,state,city,category,rating,created_at,updated_at
+1,Gateway of India,Historical monument in Mumbai,18.9220,72.8347,Maharashtra,Mumbai,Historical,4.5,2023-09-25,2023-09-25
+2,Shivneri Fort,Birthplace of Shivaji Maharaj,19.2069,73.8345,Maharashtra,Junnar,Historical,4.7,2023-09-25,2023-09-25
+3,Ajanta Caves,Ancient Buddhist cave monuments,20.5525,75.7033,Maharashtra,Aurangabad,Historical,4.8,2023-09-25,2023-09-25
+4,Mahabaleshwar,Hill station with scenic views,17.9234,73.6586,Maharashtra,Mahabaleshwar,Nature,4.6,2023-09-25,2023-09-25
+5,Lonavala,Popular hill station near Pune,18.7540,73.4079,Maharashtra,Lonavala,Nature,4.7,2023-09-25,2023-09-25
+6,Elephanta Caves,Rock-cut caves on Elephanta Island,18.9633,72.9314,Maharashtra,Mumbai,Historical,4.3,2023-09-25,2023-09-25
+7,Sinhagad Fort,Historical fort near Pune,18.3658,73.7553,Maharashtra,Pune,Historical,4.6,2023-09-25,2023-09-25
+8,Bhandardara,Nature retreat with lakes and waterfalls,19.5537,73.7589,Maharashtra,Bhandardara,Nature,4.4,2023-09-25,2023-09-25
+9,Raigad Fort,Fort built by Shivaji Maharaj,18.2345,73.4429,Maharashtra,Raigad,Historical,4.8,2023-09-25,2023-09-25
+10,Ellora Caves,UNESCO World Heritage site,20.0268,75.1792,Maharashtra,Aurangabad,Historical,4.9,2023-09-25,2023-09-25
+11,Diveagar Beach,Serene beach in Konkan,18.1667,73.0270,Maharashtra,Diveagar,Nature,4.2,2023-09-25,2023-09-25
+12,Alibaug,Popular beach destination near Mumbai,18.6414,72.8758,Maharashtra,Alibaug,Nature,4.1,2023-09-25,2023-09-25
+13,Tadoba National Park,Tiger reserve and wildlife sanctuary,20.2448,79.3488,Maharashtra,Chandrapur,Nature,4.6,2023-09-25,2023-09-25
+14,Matheran,Small hill station near Mumbai,18.9888,73.2719,Maharashtra,Matheran,Nature,4.3,2023-09-25,2023-09-25
+15,Panchgani,Popular hill station with scenic views,17.9240,73.8000,Maharashtra,Panchgani,Nature,4.5,2023-09-25,2023-09-25
+16,Karla Caves,Ancient Buddhist caves near Lonavala,18.7580,73.4740,Maharashtra,Lonavala,Historical,4.4,2023-09-25,2023-09-25
+17,Bhaja Caves,Rock-cut Buddhist caves,18.7375,73.4885,Maharashtra,Lonavala,Historical,4.2,2023-09-25,2023-09-25
+18,Sula Vineyards,India's leading vineyard in Nashik,19.9442,73.7409,Maharashtra,Nashik,Nature,4.5,2023-09-25,2023-09-25
+19,Kaas Plateau,UNESCO Biodiversity Site with flowers,17.7000,73.8000,Maharashtra,Satara,Nature,4.7,2023-09-25,2023-09-25
+20,Pratapgad Fort,Historic fort near Mahabaleshwar,17.9233,73.6588,Maharashtra,Satara,Historical,4.6,2023-09-25,2023-09-25
+21,Chikhaldara Hill Station,Hill station in the Satpura range,21.3339,77.3513,Maharashtra,Chikhaldara,Nature,4.5,2023-09-25,2023-09-25
+22,Paithan Dam,Hydroelectric dam on the Godavari River,19.4755,75.4193,Maharashtra,Paithan,Nature,4.2,2023-09-25,2023-09-25
+23,Lohagad Fort,Historic fort with panoramic views,18.6945,73.4880,Maharashtra,Lonavala,Historical,4.7,2023-09-25,2023-09-25
+24,Tuljapur Bhavani Temple,Ancient Hindu temple in Tuljapur,18.0080,76.0752,Maharashtra,Tuljapur,Religious,4.8,2023-09-25,2023-09-25
+25,Nagaon Beach,Popular beach in Alibaug,18.5667,72.9333,Maharashtra,Alibaug,Nature,4.4,2023-09-25,2023-09-25
+26,Shani Shingnapur,Hindu temple dedicated to Lord Shani,19.3859,74.5647,Maharashtra,Ahmednagar,Religious,4.5,2023-09-25,2023-09-25
+27,Harihareshwar Beach,Quiet beach town in Konkan,18.0833,73.0167,Maharashtra,Harihareshwar,Nature,4.3,2023-09-25,2023-09-25
+28,Bibi Ka Maqbara,Mughal-era mausoleum,19.9067,75.3333,Maharashtra,Aurangabad,Historical,4.7,2023-09-25,2023-09-25
+29,Jayakwadi Bird Sanctuary,Famous bird-watching spot,19.5000,75.3500,Maharashtra,Paithan,Nature,4.5,2023-09-25,2023-09-25
+30,Dudhsagar Waterfall,Scenic waterfall on the Goa border,15.3141,74.3141,Maharashtra,Sindhudurg,Nature,4.6,2023-09-25,2023-09-25
+31,Bandra-Worli Sea Link,Iconic bridge in Mumbai,19.0176,72.8177,Maharashtra,Mumbai,Man-made,4.8,2023-09-25,2023-09-25
+32,Dajipur Wildlife Sanctuary,Home to the Indian bison,16.5390,73.8666,Maharashtra,Kolhapur,Nature,4.3,2023-09-25,2023-09-25
+33,Ganpatipule,Beach town with a Ganesha temple,17.1500,73.2500,Maharashtra,Ratnagiri,Nature,4.8,2023-09-25,2023-09-25
+34,Kalsubai Peak,Highest peak in Maharashtra,19.6022,73.7000,Maharashtra,Igatpuri,Nature,4.9,2023-09-25,2023-09-25
+35,Haji Ali Dargah,Historic mosque and tomb in Mumbai,18.9823,72.8100,Maharashtra,Mumbai,Religious,4.7,2023-09-25,2023-09-25
+36,Pandharpur Temple,Famous pilgrimage site for Lord Vitthal,17.6776,75.3348,Maharashtra,Pandharpur,Religious,4.9,2023-09-25,2023-09-25
+37,Vajrai Waterfall,Tall waterfall near Satara,17.6633,73.8427,Maharashtra,Satara,Nature,4.8,2023-09-25,2023-09-25
+38,Murud-Janjira Fort,Sea fort near Murud,18.2930,72.9675,Maharashtra,Murud,Historical,4.5,2023-09-25,2023-09-25
+39,Dapoli,Coastal town with beaches and temples,17.7563,73.1857,Maharashtra,Dapoli,Nature,4.6,2023-09-25,2023-09-25
+40,Velas Beach,Turtle conservation site,17.9607,73.0065,Maharashtra,Velas,Nature,4.7,2023-09-25,2023-09-25
+41,Mulshi Lake,Scenic lake and picnic spot,18.5414,73.4875,Maharashtra,Pune,Nature,4.4,2023-09-25,2023-09-25
+42,Kelwa Beach,Tranquil beach near Palghar,19.6600,72.7500,Maharashtra,Palghar,Nature,4.3,2023-09-25,2023-09-25
+43,Bhimashankar Temple,Ancient temple in Sahyadri hills,19.0700,73.5500,Maharashtra,Pune,Religious,4.9,2023-09-25,2023-09-25
+44,Chandoli National Park,Biodiversity hotspot in Western Ghats,17.0333,73.8000,Maharashtra,Kolhapur,Nature,4.5,2023-09-25,2023-09-25
+45,Tamhini Ghat,Scenic mountain pass,18.4571,73.4087,Maharashtra,Pune,Nature,4.6,2023-09-25,2023-09-25
+46,Gorai Beach,Quiet beach near Mumbai,19.2711,72.7728,Maharashtra,Mumbai,Nature,4.2,2023-09-25,2023-09-25
+47,Dajipur Wildlife Sanctuary,Protected area for Indian Bison,16.5333,73.9167,Maharashtra,Kolhapur,Nature,4.4,2023-09-25,2023-09-25
+48,Kanheri Caves,Ancient Buddhist caves in Sanjay Gandhi National Park,19.2142,72.8782,Maharashtra,Mumbai,Historical,4.8,2023-09-25,2023-09-25
+49,Malvan,Coastal town with beaches and seafood,16.0599,73.4699,Maharashtra,Sindhudurg,Nature,4.7,2023-09-25,2023-09-25
+50,Karnala Fort,Historic fort in a bird sanctuary,18.8914,73.1152,Maharashtra,Panvel,Historical,4.6,2023-09-25,2023-09-25
