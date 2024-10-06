@@ -38,7 +38,7 @@ public class TripEntity {
 
     @ElementCollection
     @CollectionTable(name = "tourist_places", joinColumns = @JoinColumn(name = "trip_id"))
-    @Column(name = "place")
+    @Column(name = "place_id")
     private List<String> touristPlaces;
 
     @Column(name = "trip_type")
@@ -46,4 +46,7 @@ public class TripEntity {
 
     @Column(name = "estimated_expenses", precision = 10, scale = 2)
     private BigDecimal estimatedExpenses;
+
+    @Column(name = "trip_description")
+    private String tripDescription;
 }
