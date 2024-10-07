@@ -51,7 +51,7 @@ public class TripServiceImpl implements TripService{
             tripRepository.save(newTrip);
             log.info("Creating trip saved successfully.");
 
-            log.info("Creating trip response: {}", createTripResponse);
+            log.info("Creating trip response: {}", createTripResponse );
             createTripResponse.setStatus("Success");
             createTripResponse.setMessage("Created trip successfully.");
         } catch (Exception e) {
