@@ -1,7 +1,9 @@
 package com.travelbuddy.tripservice.service;
 
 import com.travelbuddy.tripservice.model.ExpenseEntity;
+import com.travelbuddy.tripservice.model.PlacesEntity;
 import com.travelbuddy.tripservice.repository.ExpenseRepositoryInterface;
+import com.travelbuddy.tripservice.repository.PlacesRepositoryInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,11 @@ public class ExpenseServiceImpl {
 
     private static final Logger log = LoggerFactory.getLogger(ExpenseServiceImpl.class);
     private final ExpenseRepositoryInterface expenseRepositoryInterface;
+    private final PlacesRepositoryInterface placesRepositoryInterface;
 
-    public ExpenseServiceImpl(ExpenseRepositoryInterface expenseRepositoryInterface) {
+    public ExpenseServiceImpl(ExpenseRepositoryInterface expenseRepositoryInterface, PlacesRepositoryInterface placesRepositoryInterface) {
         this.expenseRepositoryInterface = expenseRepositoryInterface;
+        this.placesRepositoryInterface = placesRepositoryInterface;
     }
 
     /**
@@ -45,10 +49,37 @@ public class ExpenseServiceImpl {
             expenseRepositoryInterface.save(tripExpense);
             log.info("Total estimated cost for trip {}: {}", tripId, totalEstimatedCost);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("calculate Total EstimateCost {}", e.getMessage());
         }
 
-
         return totalEstimatedCost;
+    }
+
+    public HashMap<String, Double> prepareAllExpenses(HashMap<String, String> prepareExpenseReq) {
+
+        // Destination City, origin city, trip type, number of days,
+        // transport -> transport id { includes all the routes and possible data}
+        HashMap<String, Double> allExpenses = new HashMap<>();
+
+        // get transport Cost - get it from Transport Service
+
+        // get Hotel Cost - get it from Hotel Service
+
+        // get City expenses
+        PlacesEntity destinationCity = placesRepositoryInterface.getByPlaceId(prepareExpenseReq.get("destination"));
+        double cityExpenses = destinationCity.getEstimatedCharges();
+        // get Other charges - includes service charges. get it from table
+        Double transportCost = 0.0;
+        Double hotelCost = 0.0;
+        Double otherCharges = 0.0;
+
+        HashMap<String,Double> allExpensesMap = new HashMap<>();
+        allExpensesMap.put("transport_cost", transportCost);
+        allExpensesMap.put("hotel_cost", hotelCost);
+        allExpensesMap.put("city_expenses", cityExpenses);
+        allExpensesMap.put("other_charges", otherCharges);
+        double totalEstimatedCost = calculateTotalEstimateCost(allExpensesMap, destinationCity.getId());
+        allExpensesMap.put("total_estimated_cost", totalEstimatedCost);
+        return allExpensesMap;
     }
 }
