@@ -16,6 +16,9 @@ public class PlacesEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "place_id", nullable = false)
+    private String placeId;
+
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -42,4 +45,7 @@ public class PlacesEntity {
 
     @Column(name = "type")
     private String type; // e.g., Historical, Adventure, Nature, etc.
+
+    @Column(name = "estimated_charges")
+    private Double estimatedCharges;
 }
