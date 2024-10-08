@@ -9,11 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="tripservice" />
         <module name="userservice" />
+        <module name="hotelservice" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="hotelservice" options="-parameters" />
       <module name="tripservice" options="-parameters" />
       <module name="userservice" options="-parameters" />
     </option>
