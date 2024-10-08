@@ -40,12 +40,13 @@ public class ExpenseServiceImpl {
             totalEstimatedCost = transportCost + hotelCost + cityExpenses + otherCharges;
 
             // Saving in Expense table DB
-            ExpenseEntity tripExpense = new ExpenseEntity();
-            tripExpense.setTripId(tripId);
-            tripExpense.setTransportCost(transportCost);
-            tripExpense.setHotelCost(hotelCost);
-            tripExpense.setCityExpense(cityExpenses);
-            tripExpense.setOtherCharges(otherCharges);
+            ExpenseEntity tripExpense = ExpenseEntity.builder()
+                    .tripId(tripId)
+                    .transportCost(transportCost)
+                    .hotelCost(hotelCost)
+                    .cityExpense(cityExpenses)
+                    .otherCharges(otherCharges)
+                    .build();
             expenseRepositoryInterface.save(tripExpense);
             log.info("Total estimated cost for trip {}: {}", tripId, totalEstimatedCost);
         } catch (Exception e) {
