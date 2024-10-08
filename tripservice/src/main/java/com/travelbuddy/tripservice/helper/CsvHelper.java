@@ -18,27 +18,30 @@ import java.util.List;
 public class CsvHelper {
 
     public List<PlacesEntity> csvToPlaces(String filePath) {
-        log.info("Importing CSV file: " + filePath);
+        log.info("Importing CSV file: {}", filePath);
         List<PlacesEntity> placesList = new ArrayList<>();
         try (CSVReader csvReader = new CSVReader(new FileReader(filePath))) {
             String[] values;
             csvReader.readNext(); // Skip header line if present
             while ((values = csvReader.readNext()) != null) {
+                log.info("Row: {}", values);
+                //id,name,description,latitude,longitude,state,city,category,rating,created_at,updated_at
                 PlacesEntity place = new PlacesEntity();
-                place.setName(values[0]);
-                place.setDescription(values[1]);
-                place.setLatitude(Double.parseDouble(values[2]));
-                place.setLongitude(Double.parseDouble(values[3]));
-                place.setEntryFee(Double.parseDouble(values[4]));
-                place.setRating(Double.parseDouble(values[5]));
+                place.setName(values[1]);
+                place.setDescription(values[2]);
+                place.setLatitude(Double.parseDouble(values[3]));
+                place.setLongitude(Double.parseDouble(values[4]));
+                //place.setState(values[5]);
+                //place.setEntryFee(Double.parseDouble(values[8]));
+                place.setRating(Double.parseDouble(values[8]));
                 place.setCity(values[6]);
-                place.setCountry(values[7]);
-                place.setType(values[8]);
+                //place.setCountry(values[8]);
+                place.setType(values[7]);
 
                 placesList.add(place);
             }
         } catch (IOException | CsvException e) {
-            log.info("Error in reading file: " + e.getMessage());
+            log.info("Error in reading file: {}", e.getMessage());
         }
         return placesList;
     }
