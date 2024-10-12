@@ -1,13 +1,11 @@
 package com.travelbuddy.hotelservice.controller;
 
+import com.travelbuddy.hotelservice.api.request.FilterParamRequest;
 import com.travelbuddy.hotelservice.api.response.GeneralResponse;
 import com.travelbuddy.hotelservice.service.HotelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("hotel")
@@ -25,4 +23,11 @@ public class HotelController {
     public ResponseEntity<GeneralResponse> getHotelByCode(@PathVariable("code") String code) {
         return hotelService.getHotelByCode(code);
     }
+
+    @PostMapping("filter")
+    public ResponseEntity<GeneralResponse> getHotelListByFilterParam(@RequestBody FilterParamRequest filterParamReq) {
+        return hotelService.getHotelByFilterParam(filterParamReq);
+    }
+
+
 }
