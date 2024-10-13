@@ -1,5 +1,6 @@
 package com.travelbuddy.tripservice.service;
 
+import com.travelbuddy.hotelservice.model.HotelEntity;
 import com.travelbuddy.tripservice.model.ExpenseEntity;
 import com.travelbuddy.tripservice.model.PlacesEntity;
 import com.travelbuddy.tripservice.repository.ExpenseRepositoryInterface;
@@ -7,8 +8,12 @@ import com.travelbuddy.tripservice.repository.PlacesRepositoryInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
+import org.springframework.web.reactive.function.client.WebClient;
+
 
 import java.util.HashMap;
+import java.util.Objects;
 
 @Service
 public class ExpenseServiceImpl {
@@ -16,10 +21,18 @@ public class ExpenseServiceImpl {
     private static final Logger log = LoggerFactory.getLogger(ExpenseServiceImpl.class);
     private final ExpenseRepositoryInterface expenseRepositoryInterface;
     private final PlacesRepositoryInterface placesRepositoryInterface;
+    private final WebClient webClient;
 
-    public ExpenseServiceImpl(ExpenseRepositoryInterface expenseRepositoryInterface, PlacesRepositoryInterface placesRepositoryInterface) {
+    public ExpenseServiceImpl(
+            ExpenseRepositoryInterface expenseRepositoryInterface,
+            PlacesRepositoryInterface placesRepositoryInterface,
+            WebClient.Builder webClientBuilder
+            )
+    {
         this.expenseRepositoryInterface = expenseRepositoryInterface;
         this.placesRepositoryInterface = placesRepositoryInterface;
+        this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
+
     }
 
     /**
@@ -82,5 +95,14 @@ public class ExpenseServiceImpl {
         double totalEstimatedCost = calculateTotalEstimateCost(allExpensesMap, destinationCity.getId());
         allExpensesMap.put("total_estimated_cost", totalEstimatedCost);
         return allExpensesMap;
+    }
+
+    public Double getHotelCost(String hotelCode) {
+        Mono<HotelEntity> hotelData =  webClient.get()
+                .uri("/hotel/{code}", hotelCode)
+                .retrieve()
+                .bodyToMono(HotelEntity.class);
+
+        return Objects.requireNonNull(hotelData.block()).getCost();
     }
 }
