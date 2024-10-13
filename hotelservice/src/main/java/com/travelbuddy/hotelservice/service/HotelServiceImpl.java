@@ -82,17 +82,17 @@ public class HotelServiceImpl implements HotelService {
                     filteredHotels = hotelRepositoryInterface.findByCity(filterParamReq.getFilterValue());
                     break;
                 case "cost":
-//                    if (!filterParamReq.getFilterCondition().isEmpty()) {
-//                        if (filterParamReq.getFilterCondition().equals("greater")) {
-//                            // Fetch hotels where cost is greater than the provided value
-//                            filteredHotels = hotelRepositoryInterface.findHotelsByCostGreaterThan(Double.parseDouble(filterParamReq.getFilterValue()));
-//                        } else if (filterParamReq.getFilterCondition().equals("lesser")) {
-//                            // Fetch hotels where cost is less than the provided value
-//                            filteredHotels  = hotelRepositoryInterface.findHotelsByCostLessThan(Double.parseDouble(filterParamReq.getFilterValue()));
-//                        }
-//                    } else {
-                        filteredHotels = hotelRepositoryInterface.findByCity(filterParamReq.getFilterValue());
-                   // }
+                    if (!filterParamReq.getFilterCondition().isEmpty()) {
+                        if (filterParamReq.getFilterCondition().equals("greater")) {
+                            // Fetch hotels where cost is greater than the provided value
+                            filteredHotels = hotelRepositoryInterface.findHotelsByCostGreaterThan(Double.parseDouble(filterParamReq.getFilterValue()));
+                        } else if (filterParamReq.getFilterCondition().equals("lesser")) {
+                            // Fetch hotels where cost is less than the provided value
+                            filteredHotels  = hotelRepositoryInterface.findHotelsByCostLessThan(Double.parseDouble(filterParamReq.getFilterValue()));
+                        }
+                    } else {
+                        filteredHotels = hotelRepositoryInterface.findByCost(Double.parseDouble(filterParamReq.getFilterValue()));
+                    }
                     break;
                 // Add more cases for different fields as needed
                 default:
