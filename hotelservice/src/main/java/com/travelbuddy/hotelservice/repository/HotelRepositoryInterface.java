@@ -16,9 +16,11 @@ public interface HotelRepositoryInterface extends JpaRepository<HotelEntity, Lon
 
     List<HotelEntity> findByCity(String filterValue);
 
-//    @Query("SELECT h FROM HotelEntity h WHERE h.cost > :cost")
-//    List<HotelEntity> findHotelsByCostGreaterThan(@Param("costValue") Double cost);
-//
-//    @Query("SELECT h FROM HotelEntity h WHERE h.cost < :cost")
-//    List<HotelEntity> findHotelsByCostLessThan(@Param("costValue") Double cost);
+    List<HotelEntity> findByCost(Double filterValue);
+
+    @Query("SELECT h FROM HotelEntity h WHERE h.cost > :cost")
+    List<HotelEntity> findHotelsByCostGreaterThan(@Param("cost") Double cost);
+
+    @Query("SELECT h FROM HotelEntity h WHERE h.cost < :cost")
+    List<HotelEntity> findHotelsByCostLessThan(@Param("cost") Double cost);
 }
