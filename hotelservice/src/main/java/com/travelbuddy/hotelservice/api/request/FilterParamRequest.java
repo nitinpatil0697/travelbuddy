@@ -6,4 +6,5 @@ import lombok.Data;
 public class FilterParamRequest {
     private String filterField;
     private String filterValue;
+    private String filterCondition;
 }
