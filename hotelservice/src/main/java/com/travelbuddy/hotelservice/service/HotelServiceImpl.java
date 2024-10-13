@@ -48,7 +48,7 @@ public class HotelServiceImpl implements HotelService {
      */
     @Override
     public ResponseEntity<GeneralResponse> getHotelByCode(String code) {
-        log.info("Get Hotel Api called.");
+        log.info("Get Hotel Api called.{}", code);
         GeneralResponse hotelResponse = new GeneralResponse();
         HotelEntity hotel = hotelRepositoryInterface.findByHotelCode(code);
         hotelResponse.setStatus("SUCCESS");

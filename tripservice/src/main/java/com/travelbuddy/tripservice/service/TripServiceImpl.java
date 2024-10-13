@@ -27,10 +27,17 @@ public class TripServiceImpl implements TripService{
     TripRepositoryInterface tripRepository;
     @Autowired
     private PlacesRepositoryInterface placesRepositoryInterface;
+    @Autowired
+    private ExpenseServiceImpl expenseServiceImpl;
 
     @Override
     public ResponseEntity<GeneralResponse> createTrip(CreateTripRequest createTripRequest) {
         log.info("Creating trip request: {}", createTripRequest);
+
+        Double cost = expenseServiceImpl.getHotelCost("HBM001");
+        log.info("Hotel cost: {}", cost);
+
+
         GeneralResponse createTripResponse = new GeneralResponse();
         try {
             if (!validateCreateTripRequest(createTripRequest)) {
