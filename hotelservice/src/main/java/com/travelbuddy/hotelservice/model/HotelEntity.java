@@ -19,4 +19,5 @@ public class HotelEntity {
     private String country;
     private String phone;
     private Double rating;
+    private Double cost;
 }

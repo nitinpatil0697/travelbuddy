@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,46 +58,58 @@ public class HotelServiceImpl implements HotelService {
         return new ResponseEntity<>(hotelResponse, HttpStatus.OK);
     }
 
+    /**
+     * Get list of hotels based on rating, city and its values
+     *
+     * @param filterParamReq
+     * @return
+     */
     @Override
     public ResponseEntity<GeneralResponse> getHotelByFilterParam(FilterParamRequest filterParamReq) {
-        log.info("Get Hotel Api called by filter param.");
+        log.info("Get Hotel API called with filter params.");
         GeneralResponse hotelListResponse = new GeneralResponse();
         hotelListResponse.setStatus("FAILURE");
-        if (!filterParamReq.getFilterField().isEmpty()) {
-            String filterField = "findBy" + filterParamReq.getFilterField().substring(0, 1).toUpperCase() + filterParamReq.getFilterField().substring(1);
 
-            try {
-                // Use reflection to get the method from the repository interface
-                Method method = hotelRepositoryInterface.getClass().getMethod(filterField);
+        if (!filterParamReq.getFilterField().isEmpty() && !filterParamReq.getFilterValue().isEmpty()) {
+            List<HotelEntity> filteredHotels = new ArrayList<>();
 
-                // Invoke the method dynamically
-                @SuppressWarnings("unchecked")
-                List<HotelEntity> allFilterHotel = (List<HotelEntity>) method.invoke(hotelRepositoryInterface);
-                hotelListResponse.setStatus("SUCCESS");
-                hotelListResponse.setResult(allFilterHotel);
-                if (!filterParamReq.getFilterValue().isEmpty()) {
-                    String methodName = "get" + filterParamReq.getFilterValue().substring(0, 1).toUpperCase() + filterParamReq.getFilterValue().substring(1);
-                    List<HotelEntity> allFilteredValueHotels = allFilterHotel.stream()
-                            .filter(hotel -> {
-                                try {
-                                    // Get the method using reflection
-                                    Method methodValue = HotelEntity.class.getMethod(methodName);
-                                    // Invoke the method and get the result
-                                    Object value = methodValue.invoke(hotel);
-                                    // Check if the value is not null and matches the filter field
-                                    return value != null && value.toString().equalsIgnoreCase(filterParamReq.getFilterField());
-                                } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                                    log.error("Method not found");
-                                    return false;
-                                }
-                            }).toList();
-                    hotelListResponse.setResult(allFilteredValueHotels);
-                }
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace(); // Handle the exception properly
+
+            switch (filterParamReq.getFilterField().toLowerCase()) {
+                case "rating":
+                    filteredHotels = hotelRepositoryInterface.findByRating(Double.parseDouble(filterParamReq.getFilterValue()));
+                    break;
+                case "city":
+                    filteredHotels = hotelRepositoryInterface.findByCity(filterParamReq.getFilterValue());
+                    break;
+                case "cost":
+//                    if (!filterParamReq.getFilterCondition().isEmpty()) {
+//                        if (filterParamReq.getFilterCondition().equals("greater")) {
+//                            // Fetch hotels where cost is greater than the provided value
+//                            filteredHotels = hotelRepositoryInterface.findHotelsByCostGreaterThan(Double.parseDouble(filterParamReq.getFilterValue()));
+//                        } else if (filterParamReq.getFilterCondition().equals("lesser")) {
+//                            // Fetch hotels where cost is less than the provided value
+//                            filteredHotels  = hotelRepositoryInterface.findHotelsByCostLessThan(Double.parseDouble(filterParamReq.getFilterValue()));
+//                        }
+//                    } else {
+                        filteredHotels = hotelRepositoryInterface.findByCity(filterParamReq.getFilterValue());
+                   // }
+                    break;
+                // Add more cases for different fields as needed
+                default:
+                    log.error("Invalid filter field: {}", filterParamReq.getFilterField());
+                    break;
             }
 
+            if (!filteredHotels.isEmpty()) {
+                hotelListResponse.setStatus("SUCCESS");
+                hotelListResponse.setResult(filteredHotels);
+            } else {
+                hotelListResponse.setMessage("No hotels found for the given filter.");
+            }
+        } else {
+            hotelListResponse.setMessage("Filter field or value is missing.");
         }
+
         hotelListResponse.setMessage("Hotel List fetched successfully");
         return new ResponseEntity<>(hotelListResponse, HttpStatus.OK);
     }
