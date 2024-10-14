@@ -6,6 +6,7 @@ import com.travelbuddy.tripservice.model.PlacesEntity;
 import com.travelbuddy.tripservice.model.TripEntity;
 import com.travelbuddy.tripservice.repository.PlacesRepositoryInterface;
 import com.travelbuddy.tripservice.repository.TripRepositoryInterface;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import static java.util.Objects.isNull;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class TripServiceImpl implements TripService{
 
     @Autowired
@@ -36,7 +38,6 @@ public class TripServiceImpl implements TripService{
 
         Double cost = expenseServiceImpl.getHotelCost("HBM001");
         log.info("Hotel cost: {}", cost);
-
 
         GeneralResponse createTripResponse = new GeneralResponse();
         try {
