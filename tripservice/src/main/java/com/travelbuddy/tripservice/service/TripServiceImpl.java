@@ -35,16 +35,11 @@ public class TripServiceImpl implements TripService{
     @Override
     public ResponseEntity<GeneralResponse> createTrip(CreateTripRequest createTripRequest) {
         log.info("Creating trip request: {}", createTripRequest);
-
-        Double cost = expenseServiceImpl.getHotelCost("HBM001");
-        log.info("Hotel cost: {}", cost);
-
         GeneralResponse createTripResponse = new GeneralResponse();
         try {
             if (!validateCreateTripRequest(createTripRequest)) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Create Trip Request");
             }
-
             TripEntity newTrip = new TripEntity();
             List<String> touristPlaces = Arrays.asList(createTripRequest.getTouristPlaces().split(","));
             newTrip.setTripName(createTripRequest.getTripName());

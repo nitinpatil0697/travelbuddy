@@ -12,7 +12,11 @@ import reactor.core.publisher.Mono;
 import org.springframework.web.reactive.function.client.WebClient;
 
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -32,7 +36,6 @@ public class ExpenseServiceImpl {
         this.expenseRepositoryInterface = expenseRepositoryInterface;
         this.placesRepositoryInterface = placesRepositoryInterface;
         this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
-
     }
 
     /**
@@ -70,36 +73,42 @@ public class ExpenseServiceImpl {
     }
 
     public HashMap<String, Double> prepareAllExpenses(HashMap<String, String> prepareExpenseReq) {
-
-        // Destination City, origin city, trip type, number of days,
-        // transport -> transport id { includes all the routes and possible data}
-        HashMap<String, Double> allExpenses = new HashMap<>();
-
-        // get transport Cost - get it from Transport Service
-
-        // get Hotel Cost - get it from Hotel Service
-
-        // get City expenses
-        PlacesEntity destinationCity = placesRepositoryInterface.getByPlaceId(prepareExpenseReq.get("destination"));
-        double cityExpenses = destinationCity.getEstimatedCharges();
-        // get Other charges - includes service charges. get it from table
-        Double transportCost = 0.0;
-        Double hotelCost = 0.0;
-        Double otherCharges = 0.0;
-
         HashMap<String,Double> allExpensesMap = new HashMap<>();
-        allExpensesMap.put("transport_cost", transportCost);
-        allExpensesMap.put("hotel_cost", hotelCost);
-        allExpensesMap.put("city_expenses", cityExpenses);
-        allExpensesMap.put("other_charges", otherCharges);
-        double totalEstimatedCost = calculateTotalEstimateCost(allExpensesMap, destinationCity.getId());
-        allExpensesMap.put("total_estimated_cost", totalEstimatedCost);
+        try {
+            // Destination City, origin city, trip type, number of days,
+            // transport -> transport id { includes all the routes and possible data}
+            // get transport Cost - get it from Transport Service
+            // get Hotel Cost - get it from Hotel Service
+            String hotelCodes = "";
+            // get City expenses
+            PlacesEntity destinationCity = placesRepositoryInterface.getByPlaceId(prepareExpenseReq.get("destination"));
+            double cityExpenses = destinationCity.getEstimatedCharges();
+            // get Other charges - includes service charges. get it from table
+            Double transportCost = 0.0;
+            Double hotelCost = getHotelCost(hotelCodes);
+            Double otherCharges = 0.0;
+
+            allExpensesMap.put("transport_cost", transportCost);
+            allExpensesMap.put("hotel_cost", hotelCost);
+            allExpensesMap.put("city_expenses", cityExpenses);
+            allExpensesMap.put("other_charges", otherCharges);
+            double totalEstimatedCost = calculateTotalEstimateCost(allExpensesMap, destinationCity.getId());
+            allExpensesMap.put("total_estimated_cost", totalEstimatedCost);
+        } catch (Exception e) {
+            log.error("prepareAllExpenses {}", e.getMessage());
+        }
         return allExpensesMap;
     }
 
-    public Double getHotelCost(String hotelCode) {
+    public Double getHotelCost(String hotelCodes) throws UnsupportedEncodingException {
+        String encodedCodes = URLEncoder.encode(hotelCodes, StandardCharsets.UTF_8);
+
+        // TODO : Work : get list of hotels in result node
         Mono<HotelEntity> hotelData =  webClient.get()
-                .uri("/hotel/{code}", hotelCode)
+                .uri(uriBuilder -> uriBuilder
+                        .path("/hotel/codes")
+                        .queryParam("code", encodedCodes)  // This will handle the proper insertion of the encoded parameter
+                        .build())
                 .retrieve()
                 .bodyToMono(HotelEntity.class);
 

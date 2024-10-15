@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -94,7 +95,6 @@ public class HotelServiceImpl implements HotelService {
                         filteredHotels = hotelRepositoryInterface.findByCost(Double.parseDouble(filterParamReq.getFilterValue()));
                     }
                     break;
-                // Add more cases for different fields as needed
                 default:
                     log.error("Invalid filter field: {}", filterParamReq.getFilterField());
                     break;
@@ -112,5 +112,22 @@ public class HotelServiceImpl implements HotelService {
 
         hotelListResponse.setMessage("Hotel List fetched successfully");
         return new ResponseEntity<>(hotelListResponse, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse> getHotelByCodes(String codes) {
+        log.info("Get Hotel API called with codes : {}", codes);
+        String[] hotelCodesList = codes.split(",");
+        GeneralResponse hotelResponse = new GeneralResponse();
+        List<HotelEntity> hotelsData = new ArrayList<>();
+        for (String code : hotelCodesList) {
+            HotelEntity hotel = hotelRepositoryInterface.findByHotelCode(code);
+            hotelsData.add(hotel);
+        }
+        hotelResponse.setStatus("SUCCESS");
+        hotelResponse.setMessage("Hotel fetched successfully");
+        hotelResponse.setResult(hotelsData);
+        log.info("Hotel data fetched successfully.");
+        return new ResponseEntity<>(hotelResponse, HttpStatus.OK);
     }
 }

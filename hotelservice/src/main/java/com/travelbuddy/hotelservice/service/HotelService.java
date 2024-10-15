@@ -12,4 +12,6 @@ public interface HotelService {
     ResponseEntity<GeneralResponse> getHotelByCode(String code);
 
     ResponseEntity<GeneralResponse> getHotelByFilterParam(FilterParamRequest filterParamReq);
+
+    ResponseEntity<GeneralResponse> getHotelByCodes(String codes);
 }
