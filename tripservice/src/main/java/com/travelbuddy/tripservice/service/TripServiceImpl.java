@@ -65,7 +65,6 @@ public class TripServiceImpl implements TripService{
         } catch (Exception e) {
             createTripResponse.setMessage("Failed to create trip.");
         }
-
         return new ResponseEntity<>(createTripResponse, HttpStatus.CREATED);
     }
 
