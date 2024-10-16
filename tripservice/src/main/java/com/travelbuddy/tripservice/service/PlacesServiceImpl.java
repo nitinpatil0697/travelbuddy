@@ -29,4 +29,8 @@ public class PlacesServiceImpl implements PlacesService{
         placesRepository.saveAll(placesList);
         return new ResponseEntity<>(csvResponse, HttpStatus.OK);
     }
+
+    public PlacesEntity getPlaceByCode(String code) {
+        return placesRepository.findByPlaceId(code);
+    }
 }
