@@ -26,16 +26,18 @@ public class ExpenseServiceImpl {
     private final ExpenseRepositoryInterface expenseRepositoryInterface;
     private final PlacesRepositoryInterface placesRepositoryInterface;
     private final WebClient webClient;
+    private final PlacesServiceImpl placesServiceImpl;
 
     public ExpenseServiceImpl(
             ExpenseRepositoryInterface expenseRepositoryInterface,
             PlacesRepositoryInterface placesRepositoryInterface,
-            WebClient.Builder webClientBuilder
-            )
+            WebClient.Builder webClientBuilder,
+            PlacesServiceImpl placesServiceImpl)
     {
         this.expenseRepositoryInterface = expenseRepositoryInterface;
         this.placesRepositoryInterface = placesRepositoryInterface;
         this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
+        this.placesServiceImpl = placesServiceImpl;
     }
 
     /**
@@ -113,5 +115,10 @@ public class ExpenseServiceImpl {
                 .bodyToMono(HotelEntity.class);
 
         return Objects.requireNonNull(hotelData.block()).getCost();
+    }
+
+    public Double getCityExpenses(String cityCode) {
+        PlacesEntity place = placesServiceImpl.getPlaceByCode(cityCode);
+        return place.getEstimatedCharges();
     }
 }

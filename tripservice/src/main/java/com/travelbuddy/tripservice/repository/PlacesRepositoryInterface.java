@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlacesRepositoryInterface extends JpaRepository<PlacesEntity, Integer> {
     PlacesEntity getByPlaceId(String destination);
+
+    PlacesEntity findByPlaceId(String code);
 }
