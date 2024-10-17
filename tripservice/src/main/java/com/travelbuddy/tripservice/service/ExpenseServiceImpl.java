@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import org.springframework.web.reactive.function.client.WebClient;
 
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -70,7 +69,6 @@ public class ExpenseServiceImpl {
         } catch (Exception e) {
             log.error("calculate Total EstimateCost {}", e.getMessage());
         }
-
         return totalEstimatedCost;
     }
 
