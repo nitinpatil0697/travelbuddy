@@ -16,7 +16,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Objects.isNull;
 
@@ -53,14 +55,36 @@ public class TripServiceImpl implements TripService{
             newTrip.setTripDescription(createTripRequest.getDescription());
             tripRepository.save(newTrip);
             log.info("Creating trip saved successfully.");
-
+            Map<String, Object> tripData = new HashMap<>();
+            Map<String, Object> result = prepareTripResponseResult(createTripRequest, tripData);
             log.info("Creating trip response: {}", createTripResponse);
             createTripResponse.setStatus("Success");
             createTripResponse.setMessage("Created trip successfully.");
+            createTripResponse.setResult(result);
         } catch (Exception e) {
             createTripResponse.setMessage("Failed to create trip.");
         }
         return new ResponseEntity<>(createTripResponse, HttpStatus.CREATED);
+    }
+
+    /**
+     * To prepare Trip Response
+     *
+     * @param createTripRequest
+     * @param tripData
+     * @return
+     */
+    private Map<String, Object> prepareTripResponseResult(
+            CreateTripRequest createTripRequest, Map<String, Object> tripData) {
+        Map<String, Object> tripResponse = new HashMap<>();
+        tripResponse.put("status", "created");
+        tripResponse.put("tripId", tripData.get("tripId"));
+        tripResponse.put("tripName", tripData.get("tripName"));
+        tripResponse.put("tripType", tripData.get("tripType"));
+        tripResponse.put("places", tripData.get("places"));
+        tripResponse.put("estimatedExpenses", tripData.get("estimatedExpenses"));
+        tripResponse.put("userDetails", tripData.get("user"));
+        return tripResponse;
     }
 
     @Override
