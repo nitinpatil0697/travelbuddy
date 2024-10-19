@@ -30,6 +30,12 @@ public class PlacesServiceImpl implements PlacesService{
         return new ResponseEntity<>(csvResponse, HttpStatus.OK);
     }
 
+    /**
+     * Get place by code
+     *
+     * @param code
+     * @return
+     */
     public PlacesEntity getPlaceByCode(String code) {
         return placesRepository.findByPlaceId(code);
     }
