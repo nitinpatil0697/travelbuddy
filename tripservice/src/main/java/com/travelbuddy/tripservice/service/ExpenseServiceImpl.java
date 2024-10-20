@@ -72,6 +72,12 @@ public class ExpenseServiceImpl {
         return totalEstimatedCost;
     }
 
+    /**
+     * Prepare all Expense
+     *
+     * @param prepareExpenseReq
+     * @return
+     */
     public HashMap<String, Double> prepareAllExpenses(HashMap<String, String> prepareExpenseReq) {
         HashMap<String,Double> allExpensesMap = new HashMap<>();
         try {
