@@ -121,6 +121,11 @@ public class ExpenseServiceImpl {
         return Objects.requireNonNull(hotelData.block()).getCost();
     }
 
+    /**
+     *
+     * @param cityCode
+     * @return
+     */
     public Double getCityExpenses(String cityCode) {
         PlacesEntity place = placesServiceImpl.getPlaceByCode(cityCode);
         return place.getEstimatedCharges();
