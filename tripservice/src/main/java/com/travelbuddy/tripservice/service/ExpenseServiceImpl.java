@@ -122,6 +122,7 @@ public class ExpenseServiceImpl {
     }
 
     /**
+     * To get City expense
      *
      * @param cityCode
      * @return
