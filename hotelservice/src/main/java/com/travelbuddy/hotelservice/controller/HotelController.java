@@ -29,6 +29,11 @@ public class HotelController {
         return hotelService.getHotelByCodes(codes);
     }
 
+    /**
+     *
+     * @param filterParamReq
+     * @return
+     */
     @PostMapping("filter")
     public ResponseEntity<GeneralResponse> getHotelListByFilterParam(@RequestBody FilterParamRequest filterParamReq) {
         return hotelService.getHotelByFilterParam(filterParamReq);
