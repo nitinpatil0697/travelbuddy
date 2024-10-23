@@ -114,6 +114,11 @@ public class HotelServiceImpl implements HotelService {
         return new ResponseEntity<>(hotelListResponse, HttpStatus.OK);
     }
 
+    /**
+     *
+     * @param codes
+     * @return
+     */
     @Override
     public ResponseEntity<GeneralResponse> getHotelByCodes(String codes) {
         log.info("Get Hotel API called with codes : {}", codes);
