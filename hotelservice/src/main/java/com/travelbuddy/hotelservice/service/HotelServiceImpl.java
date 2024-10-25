@@ -45,7 +45,6 @@ public class HotelServiceImpl implements HotelService {
     /**
      * Get Hotel based on code
      *
-     *
      * @return
      */
     @Override
@@ -74,8 +73,6 @@ public class HotelServiceImpl implements HotelService {
 
         if (!filterParamReq.getFilterField().isEmpty() && !filterParamReq.getFilterValue().isEmpty()) {
             List<HotelEntity> filteredHotels = new ArrayList<>();
-
-
             switch (filterParamReq.getFilterField().toLowerCase()) {
                 case "rating":
                     filteredHotels = hotelRepositoryInterface.findByRating(Double.parseDouble(filterParamReq.getFilterValue()));
@@ -116,6 +113,7 @@ public class HotelServiceImpl implements HotelService {
     }
 
     /**
+     *Get Hotel by codes
      *
      * @param codes
      * @return
