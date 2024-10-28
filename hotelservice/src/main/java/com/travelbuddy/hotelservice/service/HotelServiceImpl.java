@@ -127,6 +127,7 @@ public class HotelServiceImpl implements HotelService {
         for (String code : hotelCodesList) {
             HotelEntity hotel = hotelRepositoryInterface.findByHotelCode(code);
             hotelsData.add(hotel);
+            log.info("Hotel added successfully");
         }
         hotelResponse.setStatus("SUCCESS");
         hotelResponse.setMessage("Hotel fetched successfully");
