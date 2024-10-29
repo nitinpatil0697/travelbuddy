@@ -29,6 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<GeneralResponse> registerUser(RegisterUser registerUser) {
         log.info("registerUser REQ: {}", registerUser);
+        log.info("Registering user process started.");
         GeneralResponse registerResponse = new GeneralResponse();
         try{
             if (!this.validateRegisterRequest(registerUser)) {
