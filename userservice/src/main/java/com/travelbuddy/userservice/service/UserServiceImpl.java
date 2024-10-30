@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Validate the Registration of new User
+     * To Validate the Registration of new User
      */
     public boolean validateRegisterRequest(RegisterUser registerUser) {
         return !isNull(registerUser.getFirstName()) &&
