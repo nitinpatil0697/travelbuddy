@@ -1,4 +1,4 @@
-package com.travelbuddy.mapservice.api.service;
+package com.travelbuddy.mapservice.service;
 
 import com.travelbuddy.mapservice.api.response.GeneralResponse;
 import org.springframework.http.ResponseEntity;
