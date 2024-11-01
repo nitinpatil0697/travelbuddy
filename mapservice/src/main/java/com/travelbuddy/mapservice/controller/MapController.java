@@ -1,7 +1,7 @@
 package com.travelbuddy.mapservice.controller;
 
 import com.travelbuddy.mapservice.api.response.GeneralResponse;
-import com.travelbuddy.mapservice.api.service.MapService;
+import com.travelbuddy.mapservice.service.MapService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
