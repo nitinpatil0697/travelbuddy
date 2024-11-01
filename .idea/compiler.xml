@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="eureka-service" />
         <module name="apigateway" />
+        <module name="mapservice" />
         <module name="tripservice" />
         <module name="userservice" />
         <module name="hotelservice" />
@@ -20,6 +21,7 @@
       <module name="apigateway" options="-parameters" />
       <module name="eureka-service" options="-parameters" />
       <module name="hotelservice" options="-parameters" />
+      <module name="mapservice" options="-parameters" />
       <module name="tripservice" options="-parameters" />
       <module name="userservice" options="-parameters" />
     </option>
