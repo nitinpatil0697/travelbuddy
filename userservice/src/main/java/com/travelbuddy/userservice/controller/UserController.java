@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -45,7 +47,7 @@ public class UserController {
      * Controller Method of Delete the User
      */
     @DeleteMapping("deleteUser/{userId}")
-    public ResponseEntity<GeneralResponse> deleteUser(@PathVariable Integer userId) {
-        return userService.deleteUserById(userId);
+    public ResponseEntity<GeneralResponse> deleteUser(@PathVariable(name="userid") Integer id) {
+        return userService.deleteUserById(id);
     }
 }
