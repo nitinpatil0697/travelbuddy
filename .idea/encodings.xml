@@ -7,5 +7,6 @@
     <file url="file://$PROJECT_DIR$/mapservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/tripservice/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/userservice/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/weatherservice/src/main/java" charset="UTF-8" />
   </component>
 </project>
