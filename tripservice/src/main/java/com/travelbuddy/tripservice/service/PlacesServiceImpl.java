@@ -30,6 +30,16 @@ public class PlacesServiceImpl implements PlacesService{
         return new ResponseEntity<>(csvResponse, HttpStatus.OK);
     }
 
+    @Override
+    public ResponseEntity<GeneralResponse> getAllPlaces() {
+        GeneralResponse allPlacesResponse = new GeneralResponse();
+        List<PlacesEntity> placesList = placesRepository.findAll();
+        allPlacesResponse.setStatus("SUCCESS");
+        allPlacesResponse.setMessage("All Places fetched Successfully");
+        allPlacesResponse.setResult(placesList);
+        return new ResponseEntity<>(allPlacesResponse , HttpStatus.OK);
+    }
+
     /**
      * Get place by code
      *

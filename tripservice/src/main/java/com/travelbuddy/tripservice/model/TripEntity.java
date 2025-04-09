@@ -1,6 +1,7 @@
 package com.travelbuddy.tripservice.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "trip")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TripEntity {
@@ -49,4 +51,8 @@ public class TripEntity {
 
     @Column(name = "trip_description")
     private String tripDescription;
+
+    @Column(name = "user_id")
+    private Integer userId;
+
 }
