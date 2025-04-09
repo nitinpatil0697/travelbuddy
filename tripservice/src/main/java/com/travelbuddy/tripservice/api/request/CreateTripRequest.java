@@ -26,4 +26,6 @@ public class CreateTripRequest {
     private String touristPlaces; // List of tourist places to visit
 
     private Double estimatedExpenses;   // Estimated expenses for the trip
+
+    private Integer userId;
 }

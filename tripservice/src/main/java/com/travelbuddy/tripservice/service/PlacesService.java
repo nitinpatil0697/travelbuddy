@@ -9,4 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public interface PlacesService {
     ResponseEntity<GeneralResponse> savePlacesFromCSV(String filePath);
+
+    ResponseEntity<GeneralResponse> getAllPlaces();
 }
