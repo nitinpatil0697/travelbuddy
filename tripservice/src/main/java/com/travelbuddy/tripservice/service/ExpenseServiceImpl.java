@@ -1,6 +1,8 @@
 package com.travelbuddy.tripservice.service;
 
 import com.travelbuddy.hotelservice.model.HotelEntity;
+import com.travelbuddy.tripservice.api.request.CalculateExpenseRequest;
+import com.travelbuddy.tripservice.api.request.Place;
 import com.travelbuddy.tripservice.model.ExpenseEntity;
 import com.travelbuddy.tripservice.model.PlacesEntity;
 import com.travelbuddy.tripservice.repository.ExpenseRepositoryInterface;
@@ -17,6 +19,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
+import static java.util.Objects.isNull;
 
 @Service
 public class ExpenseServiceImpl {
@@ -42,30 +46,33 @@ public class ExpenseServiceImpl {
     /**
      * Calculate total Estimate Cost
      *
-     * @param allExpenses
-     * @param tripId
      * @return
      */
-    public Double calculateTotalEstimateCost(HashMap<String,Double> allExpenses, Long tripId) {
-        log.info("Calculating total estimate cost for trip {}", tripId);
+    public Double calculateTotalEstimateCost(CalculateExpenseRequest expenseRequest) {
+        log.info("Calculating total estimate cost for trip {}", expenseRequest);
         double totalEstimatedCost = 0.0;
         try {
-            Double transportCost = allExpenses.get("transport_cost");
-            Double hotelCost = allExpenses.get("hotel_cost");
-            Double cityExpenses = allExpenses.get("city_expenses"); // (e.g., food, local)
-            Double otherCharges = allExpenses.get("other_charges");  // (e.g., tickets, miscellaneous)
-            totalEstimatedCost = transportCost + hotelCost + cityExpenses + otherCharges;
+            Double cityExpense = 0.0;
+            for (Place place : expenseRequest.getPlaces()) {
+                if (!isNull(place.getEstimatedCost())) {
+                    cityExpense += place.getEstimatedCost();
+                }
+            }
+
+            Double accomodationCost = expenseRequest.getAccommodationPerNight() * expenseRequest.getNumberOfDays();
+            totalEstimatedCost = expenseRequest.getTransportationCost() + accomodationCost
+                     + cityExpense;
 
             // Saving in Expense table DB
             ExpenseEntity tripExpense = ExpenseEntity.builder()
-                    .tripId(tripId)
-                    .transportCost(transportCost)
-                    .hotelCost(hotelCost)
-                    .cityExpense(cityExpenses)
-                    .otherCharges(otherCharges)
+                    .tripId(expenseRequest.getTripId())
+                    .transportCost(expenseRequest.getTransportationCost())
+                    .hotelCost(expenseRequest.getAccommodationPerNight() * expenseRequest.getNumberOfDays())
+                    .cityExpense(cityExpense)
+                    .otherCharges(0.0)
                     .build();
             expenseRepositoryInterface.save(tripExpense);
-            log.info("Total estimated cost for trip {}: {}", tripId, totalEstimatedCost);
+            log.info("Total estimated cost for trip {}: {}", expenseRequest.getTripId(), totalEstimatedCost);
         } catch (Exception e) {
             log.error("calculate Total EstimateCost {}", e.getMessage());
         }
@@ -75,35 +82,18 @@ public class ExpenseServiceImpl {
     /**
      * Prepare all Expense
      *
-     * @param prepareExpenseReq
+     * @param expenseRequest
      * @return
      */
-    public HashMap<String, Double> prepareAllExpenses(HashMap<String, String> prepareExpenseReq) {
+    public double prepareAllExpenses(CalculateExpenseRequest expenseRequest) {
         HashMap<String,Double> allExpensesMap = new HashMap<>();
+        Double totalEstimatedCost = 0.0;
         try {
-            // Destination City, origin city, trip type, number of days,
-            // transport -> transport id { includes all the routes and possible data}
-            // get transport Cost - get it from Transport Service
-            // get Hotel Cost - get it from Hotel Service
-            String hotelCodes = "";
-            // get City expenses
-            PlacesEntity destinationCity = placesRepositoryInterface.getByPlaceId(prepareExpenseReq.get("destination"));
-            double cityExpenses = destinationCity.getEstimatedCharges();
-            // get Other charges - includes service charges. get it from table
-            Double transportCost = 0.0;
-            Double hotelCost = getHotelCost(hotelCodes);
-            Double otherCharges = 0.0;
-
-            allExpensesMap.put("transport_cost", transportCost);
-            allExpensesMap.put("hotel_cost", hotelCost);
-            allExpensesMap.put("city_expenses", cityExpenses);
-            allExpensesMap.put("other_charges", otherCharges);
-            double totalEstimatedCost = calculateTotalEstimateCost(allExpensesMap, destinationCity.getId());
-            allExpensesMap.put("total_estimated_cost", totalEstimatedCost);
+            totalEstimatedCost = calculateTotalEstimateCost(expenseRequest);
         } catch (Exception e) {
             log.error("prepareAllExpenses {}", e.getMessage());
         }
-        return allExpensesMap;
+        return totalEstimatedCost;
     }
 
     public Double getHotelCost(String hotelCodes) throws UnsupportedEncodingException {
