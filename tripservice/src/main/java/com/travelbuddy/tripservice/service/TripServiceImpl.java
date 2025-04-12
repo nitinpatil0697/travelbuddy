@@ -1,7 +1,9 @@
 package com.travelbuddy.tripservice.service;
 
+import com.travelbuddy.tripservice.api.request.CalculateExpenseRequest;
 import com.travelbuddy.tripservice.api.request.CreateTripRequest;
 import com.travelbuddy.tripservice.api.response.GeneralResponse;
+import com.travelbuddy.tripservice.constants.ServiceConstants;
 import com.travelbuddy.tripservice.model.PlacesEntity;
 import com.travelbuddy.tripservice.model.TripEntity;
 import com.travelbuddy.tripservice.repository.PlacesRepositoryInterface;
@@ -17,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static java.util.Objects.isNull;
 
@@ -60,11 +59,11 @@ public class TripServiceImpl implements TripService{
             log.info("Creating trip saved successfully.");
             Map<String, Object> result = prepareTripResponseResult(savedTrip);
             log.info("Creating trip response: {}", createTripResponse);
-            createTripResponse.setStatus("Success");
+            createTripResponse.setStatus(ServiceConstants.SUCCESS);
             createTripResponse.setMessage("Created trip successfully.");
             createTripResponse.setResult(result);
         } catch (Exception e) {
-            createTripResponse.setStatus("Failed");
+            createTripResponse.setStatus(ServiceConstants.FAILURE);
             createTripResponse.setMessage("Failed to create trip.");
         }
         return new ResponseEntity<>(createTripResponse, HttpStatus.CREATED);
@@ -93,11 +92,81 @@ public class TripServiceImpl implements TripService{
         GeneralResponse placesResponse = new GeneralResponse();
         List<PlacesEntity> allPlaces = placesRepositoryInterface.findAll();
 
-        placesResponse.setStatus("Success");
+        placesResponse.setStatus(ServiceConstants.SUCCESS);
         placesResponse.setMessage("Found " + allPlaces.size() + " places");
         placesResponse.setResult(allPlaces);
 
         return new ResponseEntity<>(placesResponse, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse> updateTrip(Integer tripId, CreateTripRequest updateRequest) {
+        GeneralResponse generalResponse = new GeneralResponse();
+        String status = "", message = "";
+        try {
+            Optional<TripEntity> optionalTrip = tripRepository.findById(tripId);
+            if (optionalTrip.isEmpty()) {
+                generalResponse.setStatus(ServiceConstants.FAILURE);
+                generalResponse.setMessage("Requested Trip details not available");
+                return new ResponseEntity<>(generalResponse, HttpStatus.NOT_FOUND);
+            } else {
+                TripEntity existingTrip = optionalTrip.get();
+                if (updateRequest.getTripName() != null)
+                    existingTrip.setTripName(updateRequest.getTripName());
+                if (updateRequest.getTripType() != null)
+                    existingTrip.setTripType(updateRequest.getTripType());
+                if (updateRequest.getStartLocation() != null)
+                    existingTrip.setOrigin(updateRequest.getStartLocation());
+                if (updateRequest.getDestination() != null)
+                    existingTrip.setDestination(updateRequest.getDestination());
+                if (updateRequest.getStartDate() != null)
+                    existingTrip.setStartDate(updateRequest.getStartDate());
+                if (updateRequest.getEndDate() != null)
+                    existingTrip.setEndDate(updateRequest.getEndDate());
+                if (updateRequest.getTouristPlaces() != null)
+                    existingTrip.setTouristPlaces(new ArrayList<>(Arrays.asList(updateRequest.getTouristPlaces().split(","))));
+                if (updateRequest.getEstimatedExpenses() != 0)
+                    existingTrip.setEstimatedExpenses(BigDecimal.valueOf(updateRequest.getEstimatedExpenses()));
+                if (updateRequest.getDescription() != null)
+                    existingTrip.setTripDescription(updateRequest.getDescription());
+                TripEntity updatedTrip = tripRepository.save(existingTrip);
+                status = ServiceConstants.SUCCESS;
+                message = "Update done for trip";
+            }
+        } catch (Exception e) {
+            status = ServiceConstants.FAILURE;
+            message = "Exception occurred in update trip.";
+        }
+        generalResponse.setStatus(status);
+        generalResponse.setMessage(message);
+        return new ResponseEntity<>(generalResponse, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse> getAllTripDetails() {
+        GeneralResponse response = new GeneralResponse();
+        try {
+            List<TripEntity> allTripDetails = tripRepository.findAll();
+            response.setStatus(ServiceConstants.SUCCESS);
+            response.setMessage("Fetched all the trip records.");
+            response.setResult(allTripDetails);
+        } catch (Exception e){
+            response.setStatus(ServiceConstants.FAILURE);
+            response.setMessage("Exception occurred while getting trip details");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<GeneralResponse> calculateTripExpense(CalculateExpenseRequest expenseRequest) {
+
+        Double expenses = expenseServiceImpl.prepareAllExpenses(expenseRequest);
+        GeneralResponse generalResponse = new GeneralResponse();
+        generalResponse.setStatus(ServiceConstants.SUCCESS);
+        generalResponse.setMessage("Calculated trip expenses.");
+        generalResponse.setResult(expenses);
+        return new ResponseEntity<>(generalResponse, HttpStatus.OK);
     }
 
     private boolean validateCreateTripRequest(CreateTripRequest createTripRequest) {
